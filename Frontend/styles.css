@@ -4,8 +4,8 @@
     --container-bg: #000000;
     --task-bg: #3a3a3a;
     --done-task-color: #888;
-    --button-bg: #4caf50;
-    --button-text-color: #fff;
+    --button-bg: #ffffff;
+    --button-text-color: #0b0b0b;
     --high-priority: #e74c3c;
     --medium-priority: #f39c12;
     --low-priority: #27ae60;
@@ -142,9 +142,25 @@ h2 {
     flex-wrap: wrap;
 }
 
-#todo-list li.done {
+
+#todo-list li.done .task-text {
     text-decoration: line-through;
     color: var(--done-task-color);
+}
+
+#todo-list li .done-button {
+    background-color: var(--button-bg);
+    color: var(--button-text-color);
+}
+
+#todo-list li.done .done-button {
+    background-color: #888;
+    color: #fff;
+}
+
+#todo-list li .remove-button {
+    background-color: var(--high-priority);
+    color: var(--button-text-color);
 }
 
 .priority {
