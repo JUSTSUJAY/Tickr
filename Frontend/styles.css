@@ -72,6 +72,18 @@ h2 {
     text-align: center;
 }
 
+.info-icon {
+    font-size: 0.8em;
+    vertical-align: super;
+    cursor: help;
+}
+
+#quick-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 .widget-link {
     display: block;
     color: var(--text-color);
@@ -97,6 +109,10 @@ h2 {
 
 .widget-link:hover {
     background-color: var(--task-bg);
+}
+
+.widget-link.remove-mode {
+    background-color: var(--high-priority);
 }
 
 #todo {

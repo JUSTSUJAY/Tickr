@@ -19,7 +19,75 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// Quick Links Feature
+function setupQuickLinks() {
+    const addButton = document.getElementById('add-quick-link');
+    const quickLinksList = document.getElementById('quick-links-list');
+    let isRemoveMode = false;
 
+    addButton.addEventListener('click', function() {
+        const url = prompt("Enter the URL for the quick link:");
+        if (url && url.trim()) {
+            const displayName = prompt("Enter a display name for this link:");
+            if (displayName && displayName.trim()) {
+                addQuickLinkItem(url.trim(), displayName.trim());
+            }
+        }
+    });
+
+    function addQuickLinkItem(url, displayName) {
+        const item = document.createElement('a');
+        item.href = url;
+        item.className = 'widget-link';
+        item.textContent = displayName;
+        item.target = '_blank';
+        quickLinksList.appendChild(item);
+        saveQuickLinkItems();
+    }
+
+    function saveQuickLinkItems() {
+        const items = Array.from(quickLinksList.children).map(item => ({
+            url: item.href,
+            displayName: item.textContent
+        }));
+        localStorage.setItem('quickLinkItems', JSON.stringify(items));
+    }
+
+    function loadQuickLinkItems() {
+        const items = JSON.parse(localStorage.getItem('quickLinkItems')) || [];
+        items.forEach(item => addQuickLinkItem(item.url, item.displayName));
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'q') {
+            isRemoveMode = true;
+            Array.from(quickLinksList.children).forEach(item => {
+                item.classList.add('remove-mode');
+                item.addEventListener('click', removeQuickLink);
+            });
+        } else if (e.key === 'Escape' && isRemoveMode) {
+            exitRemoveMode();
+        }
+    });
+
+    function removeQuickLink(e) {
+        e.preventDefault();
+        if (isRemoveMode) {
+            e.target.remove();
+            saveQuickLinkItems();
+        }
+    }
+
+    function exitRemoveMode() {
+        isRemoveMode = false;
+        Array.from(quickLinksList.children).forEach(item => {
+            item.classList.remove('remove-mode');
+            item.removeEventListener('click', removeQuickLink);
+        });
+    }
+
+    loadQuickLinkItems();
+}
 
 function addTodo() {
     const input = document.getElementById('todo-input');
@@ -181,7 +249,6 @@ function resetDailyFeatures() {
     }
 }
 
-// ... (previous JavaScript remains the same) ...
 
 // Reminder Feature
 function setupReminder() {
@@ -259,4 +326,5 @@ document.addEventListener('DOMContentLoaded', () => {
     getQuote();
     setupReminder();
     setupReadLater();
+    setupQuickLinks();
 });
