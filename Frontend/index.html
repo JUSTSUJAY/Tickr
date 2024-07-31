@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickr</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <header>
+        <div id="greeting"></div>
+        <div id="clock"></div>
+        <div id="reminder-container">
+            <div id="reminder-display">Set a reminder</div>
+            <div id="active-reminder"></div>
+        </div>
+    </header>
+    <main>
+        <section class="widgets">
+            <h2>Quick Links</h2>
+            <a href="https://google.com" target="_blank" class="widget-link">Google</a>
+            <a href="https://mail.google.com" target="_blank" class="widget-link">Gmail</a>
+            <a href="https://calendar.google.com" target="_blank" class="widget-link">Google Calendar</a>
+            <a href="https://drive.google.com" target="_blank" class="widget-link">Google Drive</a>
+            <a href="https://github.com" target="_blank" class="widget-link">GitHub</a>
+            <a href="https://news.ycombinator.com/news" target="_blank" class="widget-link">HackerNews</a>
+            <a href="https://www.anthropic.com" target="_blank" class="widget-link">Claude AI</a>
+            <a href="https://www.perplexity.ai" target="_blank" class="widget-link">Perplexity</a>
+        </section>
+        <section class="todo-container">
+            <h2>To-Do List</h2>
+            <div id="todo">
+                <div class="todo-scroll">
+                    <ul id="todo-list"></ul>
+                </div>
+                <div id="add-todo">
+                    <input type="text" id="todo-input" placeholder="Add a new task">
+                    <select id="priority">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+                    <button id="add-button">Add</button>
+                </div>
+            </div>
+        </section>
+        <section class="productivity-tools">
+            <h2>Productivity Tools</h2>
+            <div class="pomodoro">
+                <h3>Pomodoro Timer</h3>
+                <div id="pomodoro-timer">25:00</div>
+                <button id="pomodoro-start">Start</button>
+                <button id="pomodoro-reset">Reset</button>
+            </div>
+            <div class="quote-of-the-day">
+                <h3>Quote of the Day</h3>
+                <p id="quote"></p>
+            </div>
+            <div class="read-later">
+                <h3>Read Later</h3>
+                <div id="read-later-list"></div>
+                <button id="add-read-later">+</button>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
