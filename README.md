@@ -5,42 +5,38 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
 
 ## Features
 
-### 1. Quick Links
+### 1. Quick Links 🟢
 - Customizable shortcuts to frequently visited websites
 - Easy addition and removal of links
 - Persistent storage across sessions
 
-### 2. To-Do List
+### 2. To-Do List 🟢
 - Priority-based task management (High, Medium, Low)
 - Automatic sorting based on priority
 - Daily reset for a fresh start each day
 
-### 3. Pomodoro Timer
+### 3. Pomodoro Timer 🟢
 - 25-minute work sessions with 5-minute breaks
 - Audio alarm at the end of each session
 - Visual countdown timer
 
-### 4. AI Assistant
+### 4. AI Assistant 🟡
 - Integrated Large Language Model (LLM) for quick queries
 - Voice assistant capability for hands-free interaction
 - API-based responses for accurate and up-to-date information
 
-### 5. Quote of the Day
+### 5. Quote of the Day 🟢
 - Daily inspirational quotes to motivate and inspire
 
-### 6. Read Later
+### 6. Read Later 🟢
 - Save interesting articles or resources for future reading
 - Easy addition and removal of links
 
-### 7. Focus Mode
-- Toggle to hide non-essential elements
-- Helps maintain concentration on current tasks
-
-### 8. Email Notifications
+### 7. Email Notifications 🟡
 - Daily email reminders for incomplete tasks
 - Customizable notification time
 
-### 9. Keyboard Shortcuts
+### 8. Keyboard Shortcuts 🟡
 - Quick access to common actions:
   - Ctrl + Q: Add new Quick Link
   - Ctrl + T: Focus on To-Do input
@@ -48,7 +44,7 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
   - Ctrl + F: Toggle Focus Mode
   - Ctrl + A: Activate AI Assistant
 
-### 10. Data Visualization
+### 9. Data Visualization 🟡
 - Weekly and monthly productivity trends
 - Task completion rates and time management insights
 
@@ -73,7 +69,8 @@ To set up the AI Assistant and email notifications:
 
 ## Contributing
 
-We welcome contributions to improve the Productivity Dashboard! Please feel free to submit issues, feature requests, or pull requests.
+We welcome contributions to improve the Productivity Dashboard! Please feel free to submit issues, feature requests, or pull requests. 
+- **Note** - Not all the features have been implemented yet, as of now I've marked them with a 🟡
 
 ## License
 
