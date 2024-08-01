@@ -5,19 +5,34 @@ function updateClock() {
     const seconds = now.getSeconds().toString().padStart(2, '0');
     document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
     
-    let greeting;
-    if (hours < 12) {
-        greeting = "Good morning, Sujay!";
-    } else if (hours < 18) {
-        greeting = "Good afternoon, Sujay!";
-    } else {
-        greeting = "Good evening, Sujay!";
-    }
-    document.getElementById('greeting').textContent = greeting;
+    chrome.storage.sync.get(['userName'], function(result) {
+        let userName = result.userName || 'User';
+        let greeting;
+        if (hours < 12) {
+            greeting = `Good morning, ${userName}!`;
+        } else if (hours < 18) {
+            greeting = `Good afternoon, ${userName}!`;
+        } else {
+            greeting = `Good evening, ${userName}!`;
+        }
+        document.getElementById('greeting').textContent = greeting;
+    });
 }
 
-setInterval(updateClock, 1000);
-updateClock();
+function setupUserName() {
+    chrome.storage.sync.get(['userName'], function(result) {
+        if (!result.userName) {
+            let userName = prompt("Please enter your name:");
+            if (userName) {
+                chrome.storage.sync.set({userName: userName}, function() {
+                    console.log('User name saved');
+                });
+            }
+        }
+    });
+}
+
+
 
 // Quick Links Feature
 function setupQuickLinks() {
@@ -396,6 +411,7 @@ function setupReadLater() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    setupUserName();
     loadTasks();
     document.getElementById('add-button').addEventListener('click', addTodo);
     setupPomodoro();
@@ -403,4 +419,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupReminder();
     setupReadLater();
     setupQuickLinks();
+    setInterval(updateClock, 1000);
+    updateClock();
 });

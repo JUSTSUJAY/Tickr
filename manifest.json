@@ -1,20 +1,20 @@
 {
-    "manifest_version": 3,
-    "name": "Todo List with Email Notifications",
-    "version": "1.0",
-    "description": "A todo list with email notifications for unfinished tasks",
-    "chrome_url_overrides": {
-      "newtab": "./Frontend/index.html"
-    },
-    "permissions": [
-      "tabs",
-      "storage"
-    ],
-    "icons": {
+  "manifest_version": 3,
+  "name": "Tickr",
+  "version": "1.0",
+  "description": "A productivity dashboard with todo list, pomodoro timer, and more",
+  "chrome_url_overrides": {
+    "newtab": "./Frontend/index.html"
+  },
+  "permissions": [
+    "tabs",
+    "storage"
+  ],
+  "icons": {
     "48": "assets/48.png",
     "128": "assets/128.png"
   },
-    "background": {
+  "background": {
     "service_worker": "background.js"
   },
   "content_security_policy": {
@@ -23,4 +23,4 @@
   "action": {
     "default_popup": "Frontend/index.html"
   }
-  }
+}
