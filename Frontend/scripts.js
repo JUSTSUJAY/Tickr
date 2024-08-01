@@ -108,18 +108,19 @@ function createTodoItem(task, priority) {
         <span class="priority ${priority}"></span>
         <span class="task-text">${task}</span>
         <div class="task-controls">
-            <select class="change-priority">
+            <select class="change-priority" style="background-color: #2e2c2c; color: white;">
                 <option value="low" ${priority === 'low' ? 'selected' : ''}>Low</option>
                 <option value="medium" ${priority === 'medium' ? 'selected' : ''}>Medium</option>
                 <option value="high" ${priority === 'high' ? 'selected' : ''}>High</option>
             </select>
-            <button class="done-button">Done</button>
+            <button class="done-button" style="color: black;">Done</button>
             <button class="remove-button">Remove</button>
         </div>
     `;
 
     li.querySelector('.done-button').onclick = () => {
         li.classList.toggle('done');
+        reorderTasks();
         saveTasks();
     };
 
@@ -132,8 +133,7 @@ function createTodoItem(task, priority) {
         const newPriority = e.target.value;
         li.className = newPriority;
         li.querySelector('.priority').className = `priority ${newPriority}`;
-        li.remove();
-        insertSorted(li);
+        reorderTasks();
         saveTasks();
     };
 
@@ -144,15 +144,32 @@ function insertSorted(li) {
     const ul = document.getElementById('todo-list');
     const items = Array.from(ul.children);
     const priorityOrder = { high: 0, medium: 1, low: 2 };
-    
-    const insertIndex = items.findIndex(item => 
-        priorityOrder[item.classList[0]] > priorityOrder[li.classList[0]]);
-    
+
+    const insertIndex = items.findIndex(item =>
+        priorityOrder[item.classList[0]] > priorityOrder[li.classList[0]] ||
+        (priorityOrder[item.classList[0]] === priorityOrder[li.classList[0]] && !item.classList.contains('done'))
+    );
+
     if (insertIndex === -1) {
         ul.appendChild(li);
     } else {
         ul.insertBefore(li, items[insertIndex]);
     }
+}
+
+function reorderTasks() {
+    const ul = document.getElementById('todo-list');
+    const items = Array.from(ul.children);
+    const priorityOrder = { high: 0, medium: 1, low: 2 };
+
+    items.sort((a, b) => {
+        if (a.classList.contains('done') && !b.classList.contains('done')) return 1;
+        if (!a.classList.contains('done') && b.classList.contains('done')) return -1;
+        return priorityOrder[a.classList[0]] - priorityOrder[b.classList[0]];
+    });
+
+    ul.innerHTML = '';
+    items.forEach(item => ul.appendChild(item));
 }
 
 function saveTasks() {
@@ -171,7 +188,7 @@ function saveTasks() {
 function loadTasks() {
     const storedData = JSON.parse(localStorage.getItem('tasks'));
     const currentDate = new Date().toDateString();
-    
+
     if (storedData && storedData.date === currentDate) {
         storedData.tasks.forEach(task => {
             const li = createTodoItem(task.text, task.priority);
@@ -183,18 +200,41 @@ function loadTasks() {
     }
 }
 
+
 // Pomodoro Timer
 let pomodoroInterval;
 let pomodoroTime = 25 * 60;
+let alarmSound;
+
+function setupPomodoro() {
+    const startButton = document.getElementById('pomodoro-start');
+    const resetButton = document.getElementById('pomodoro-reset');
+    const timerDisplay = document.getElementById('pomodoro-timer');
+    const customTimeButton = document.getElementById('pomodoro-time');
+
+    startButton.addEventListener('click', startPomodoro);
+    resetButton.addEventListener('click', resetPomodoro);
+    customTimeButton.addEventListener('click', setCustomTime);
+
+    // Request permission for notifications
+    if (Notification.permission !== 'granted') {
+        Notification.requestPermission();
+    }
+
+    // Setup alarm sound
+    alarmSound = new Audio('https://audio-previews.elements.envatousercontent.com/files/181619625/preview.mp3');
+    const customAlarmButton = document.getElementById('alarm-tune');
+    customAlarmButton.addEventListener('click', setCustomAlarm);
+}
 
 function startPomodoro() {
     if (!pomodoroInterval) {
         pomodoroInterval = setInterval(updatePomodoro, 1000);
-        document.getElementById('pomodoro-start').textContent = 'Pause';
+        document.getElementById('pomodoro-start').textContent = '||';
     } else {
         clearInterval(pomodoroInterval);
         pomodoroInterval = null;
-        document.getElementById('pomodoro-start').textContent = 'Resume';
+        document.getElementById('pomodoro-start').textContent = '▶';
     }
 }
 
@@ -206,7 +246,8 @@ function updatePomodoro() {
     if (pomodoroTime === 0) {
         clearInterval(pomodoroInterval);
         pomodoroInterval = null;
-        alert('Pomodoro completed!');
+        playAlarm();
+        showNotification('Pomodoro Timer', 'Time is up!');
         resetPomodoro();
     } else {
         pomodoroTime--;
@@ -218,8 +259,44 @@ function resetPomodoro() {
     pomodoroInterval = null;
     pomodoroTime = 25 * 60;
     document.getElementById('pomodoro-timer').textContent = '25:00';
-    document.getElementById('pomodoro-start').textContent = 'Start';
+    document.getElementById('pomodoro-start').textContent = '▶';
 }
+
+function setCustomTime() {
+    const customTime = prompt('Enter the number of minutes for the timer:');
+    if (customTime && !isNaN(customTime)) {
+        pomodoroTime = parseInt(customTime) * 60;
+        const minutes = Math.floor(pomodoroTime / 60).toString().padStart(2, '0');
+        const seconds = (pomodoroTime % 60).toString().padStart(2, '0');
+        document.getElementById('pomodoro-timer').textContent = `${minutes}:${seconds}`;
+    }
+}
+
+function playAlarm() {
+    alarmSound.play();
+}
+
+function showNotification(title, body) {
+    if (Notification.permission === 'granted') {
+        new Notification(title, { body });
+    }
+}
+
+function setCustomAlarm() {
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = 'audio/*';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.onload = event => {
+            alarmSound = new Audio(event.target.result);
+        };
+        reader.readAsDataURL(file);
+    };
+    input.click();
+}
+
 
 // Quote of the Day
 function getQuote() {
@@ -321,8 +398,7 @@ function setupReadLater() {
 document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
     document.getElementById('add-button').addEventListener('click', addTodo);
-    document.getElementById('pomodoro-start').addEventListener('click', startPomodoro);
-    document.getElementById('pomodoro-reset').addEventListener('click', resetPomodoro);
+    setupPomodoro();
     getQuote();
     setupReminder();
     setupReadLater();
