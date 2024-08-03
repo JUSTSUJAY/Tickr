@@ -35,17 +35,20 @@ function setupUserName() {
 
 
 // Quick Links Feature
+// Quick Links Feature
 function setupQuickLinks() {
     const addButton = document.getElementById('add-quick-link');
     const quickLinksList = document.getElementById('quick-links-list');
     let isRemoveMode = false;
 
     addButton.addEventListener('click', function() {
-        const url = prompt("Enter the URL for the quick link:");
-        if (url && url.trim()) {
-            const displayName = prompt("Enter a display name for this link:");
-            if (displayName && displayName.trim()) {
-                addQuickLinkItem(url.trim(), displayName.trim());
+        if (quickLinksList.children.length < 10) {
+            const url = prompt("Enter the URL for the quick link:");
+            if (url && url.trim()) {
+                const displayName = prompt("Enter a display name for this link:");
+                if (displayName && displayName.trim()) {
+                    addQuickLinkItem(url.trim(), displayName.trim());
+                }
             }
         }
     });
@@ -58,6 +61,7 @@ function setupQuickLinks() {
         item.target = '_blank';
         quickLinksList.appendChild(item);
         saveQuickLinkItems();
+        updateAddButtonVisibility();
     }
 
     function saveQuickLinkItems() {
@@ -71,6 +75,10 @@ function setupQuickLinks() {
     function loadQuickLinkItems() {
         const items = JSON.parse(localStorage.getItem('quickLinkItems')) || [];
         items.forEach(item => addQuickLinkItem(item.url, item.displayName));
+    }
+
+    function updateAddButtonVisibility() {
+        addButton.style.display = quickLinksList.children.length < 10 ? 'block' : 'none';
     }
 
     document.addEventListener('keydown', function(e) {
@@ -90,6 +98,7 @@ function setupQuickLinks() {
         if (isRemoveMode) {
             e.target.remove();
             saveQuickLinkItems();
+            updateAddButtonVisibility();
         }
     }
 
@@ -102,6 +111,7 @@ function setupQuickLinks() {
     }
 
     loadQuickLinkItems();
+    updateAddButtonVisibility();
 }
 
 function addTodo() {
@@ -178,8 +188,13 @@ function reorderTasks() {
     const priorityOrder = { high: 0, medium: 1, low: 2 };
 
     items.sort((a, b) => {
-        if (a.classList.contains('done') && !b.classList.contains('done')) return 1;
-        if (!a.classList.contains('done') && b.classList.contains('done')) return -1;
+        const aDone = a.classList.contains('done');
+        const bDone = b.classList.contains('done');
+
+        if (aDone && !bDone) return 1;
+        if (!aDone && bDone) return -1;
+        if (aDone && bDone) return 0;
+
         return priorityOrder[a.classList[0]] - priorityOrder[b.classList[0]];
     });
 
@@ -208,8 +223,9 @@ function loadTasks() {
         storedData.tasks.forEach(task => {
             const li = createTodoItem(task.text, task.priority);
             if (task.done) li.classList.add('done');
-            insertSorted(li);
+            document.getElementById('todo-list').appendChild(li);
         });
+        reorderTasks();
     } else {
         localStorage.removeItem('tasks');
     }
