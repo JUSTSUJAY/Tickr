@@ -1,3 +1,67 @@
+function setupBackgroundChanger() {
+    const changeBackgroundBtn = document.getElementById('change-background');
+    const removeBackgroundBtn = document.getElementById('remove-background');
+
+    changeBackgroundBtn.addEventListener('click', () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.onchange = e => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = event => {
+                const img = new Image();
+                img.onload = () => {
+                    // Compress image if it's too large
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const MAX_WIDTH = 1920;
+                    const MAX_HEIGHT = 1080;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+                    
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+                    document.body.style.backgroundImage = `url(${compressedDataUrl})`;
+                    localStorage.setItem('backgroundImage', compressedDataUrl);
+                    removeBackgroundBtn.style.display = 'block';
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        };
+        input.click();
+    });
+
+    removeBackgroundBtn.addEventListener('click', () => {
+        document.body.style.backgroundImage = 'none';
+        localStorage.removeItem('backgroundImage');
+        removeBackgroundBtn.style.display = 'none';
+    });
+
+    // Load saved background image on startup
+    const savedBackground = localStorage.getItem('backgroundImage');
+    if (savedBackground) {
+        document.body.style.backgroundImage = `url(${savedBackground})`;
+        removeBackgroundBtn.style.display = 'block';
+    }
+}
+
+
 function updateClock() {
     const now = new Date();
     const hours = now.getHours().toString().padStart(2, '0');
@@ -413,6 +477,7 @@ function setupReadLater() {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    setupBackgroundChanger();
     setupUserName();
     loadTasks();
     document.getElementById('add-button').addEventListener('click', addTodo);
