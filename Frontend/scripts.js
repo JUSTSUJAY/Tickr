@@ -313,20 +313,6 @@ function setCustomAlarm() {
 }
 
 
-// Quote of the Day
-function getQuote() {
-    fetch('https://api.quotable.io/random')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('quote').textContent = `"${data.content}" - ${data.author}`;
-        })
-        .catch(error => {
-            console.error('Error fetching quote:', error);
-            document.getElementById('quote').textContent = 'Failed to load quote. Please try again later.';
-        });
-}
-
-
 
 // Reset daily features
 function resetDailyFeatures() {
@@ -415,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
     loadTasks();
     document.getElementById('add-button').addEventListener('click', addTodo);
     setupPomodoro();
-    getQuote();
     setupReminder();
     setupReadLater();
     setupQuickLinks();

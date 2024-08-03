@@ -247,13 +247,6 @@ button {
     margin: 0 5px;
 }
 
-.quote-of-the-day {
-    text-align: center;
-}
-
-#quote {
-    font-style: italic;
-}
 
 .daily-goal, .quick-notes {
     margin-top: 20px;
