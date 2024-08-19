@@ -80,4 +80,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 We hope this Productivity Dashboard helps boost your daily efficiency and workflow management. Happy productivity!
 ---
 
-![image](https://github.com/user-attachments/assets/ee048f69-9127-44f3-8fa5-572666c7be59)
+![image](https://github.com/user-attachments/assets/2b7a326b-d16c-4116-a231-ec29e504e9c0)
+
