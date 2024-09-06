@@ -27,18 +27,11 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
 - Voice assistant capability for hands-free interaction
 - API-based responses for accurate and up-to-date information
 
-### 5. Quote of the Day 🟢
-- Daily inspirational quotes to motivate and inspire
-
-### 6. Read Later 🟢
+### 5. Read Later 🟢
 - Save interesting articles or resources for future reading
 - Easy addition and removal of links
 
-### 7. Email Notifications 🟡
-- Daily email reminders for incomplete tasks
-- Customizable notification time
-
-### 8. Keyboard Shortcuts 🟡
+### 6. Keyboard Shortcuts 🟡
 - Quick access to common actions:
   - Ctrl + Q: Add new Quick Link
   - Ctrl + T: Focus on To-Do input
@@ -46,7 +39,7 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
   - Ctrl + F: Toggle Focus Mode
   - Ctrl + A: Activate AI Assistant
 
-### 9. Data Visualization 🟡
+### 7. Data Visualization 🟡
 - Weekly and monthly productivity trends
 - Task completion rates and time management insights
 
