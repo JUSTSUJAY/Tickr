@@ -22,7 +22,7 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
 - Audio alarm at the end of each session
 - Visual countdown timer
 
-### 4. AI Assistant 🟡
+### 4. AI Assistant 🟡 [Scraped for lightweight keeping]
 - Integrated Large Language Model (LLM) for quick queries
 - Voice assistant capability for hands-free interaction
 - API-based responses for accurate and up-to-date information
@@ -31,7 +31,7 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
 - Save interesting articles or resources for future reading
 - Easy addition and removal of links
 
-### 6. Keyboard Shortcuts 🟡
+### 6. Keyboard Shortcuts 🟡 [Paritally implemented in Quick Links]
 - Quick access to common actions:
   - Ctrl + Q: Add new Quick Link
   - Ctrl + T: Focus on To-Do input
@@ -39,7 +39,7 @@ A comprehensive productivity tool designed to boost your daily efficiency and wo
   - Ctrl + F: Toggle Focus Mode
   - Ctrl + A: Activate AI Assistant
 
-### 7. Data Visualization 🟡
+### 7. Data Visualization 🟡 [Might be too much]
 - Weekly and monthly productivity trends
 - Task completion rates and time management insights
 
